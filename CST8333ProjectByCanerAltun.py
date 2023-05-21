@@ -1,6 +1,5 @@
 '''
-Author: Caner Altun - 041025544
-Course: CST_8333_350 Programming Language Research
+Author: Caner Altun
 Date: 05/20/2023
 Description: Practical Project Part 01 program that uses CSV library to open 
 and print records from the CSV dataset on screen.
