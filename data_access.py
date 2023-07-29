@@ -8,13 +8,14 @@ and print records from the CSV dataset on screen.
 #In the next line, csv module is imported. 
 #The csv module implements classes to read and write tabular data in CSV format.
 import csv
-from vegetables_record_model import VegetablesRecord
+from vegetables_record_model import VegetablesRecord, ProcessedVegetablesRecord
 from tabulate import tabulate
 
-
+# The DataStore class stores and manages the vegetable records.
 class DataStore:
-    vegetables_dataset = []
-    vegetablesRecord = VegetablesRecord
+    def __init__(self):
+        self.vegetables_dataset = [] # List to hold the vegetable records
+        self.vegetablesRecord = VegetablesRecord # Reference to the base class for vegetable records
 
     def readData(self):
         '''
@@ -33,14 +34,15 @@ class DataStore:
                 next(csv_reader)
                 print("\nCaner Altun")
                 for index, row in enumerate(csv_reader):
+                    # Create a new VegetablesRecord object from the CSV row data
                     vegetables = self.vegetablesRecord(
                         row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],
                         row[8],row[9],row[10],row[11],row[12],row[13], row[14],row[15]
                     )
                     if index < 100:
-                        self.vegetables_dataset.append(vegetables)
+                        self.vegetables_dataset.append(vegetables) # Add the record to the list
                     else:
-                        break
+                        break # Limit to reading 100 records
                 
             # Exception triggered if the file is not found.
         except FileNotFoundError:
@@ -73,6 +75,7 @@ class DataStore:
                 )
 
                 for record in self.vegetables_dataset:
+                    # Write each record's attributes to the new CSV file
                     csv_writer.writerow(
                         [record.ref_date, record.geo, record.dguid, record.type_of_product,
                          record.type_of_storage, record.uom, record.uom_id, record.scalar_factor,
@@ -101,7 +104,7 @@ class DataStore:
         table_data = []
         headers = [
                 "Ref Date", "Geo", "DGUID", "Type of Product", "Type of Storage", "UOM", "UOM ID", "Scalar Factor",
-                "Scalar ID", "Vector", "Coordinate", "Value", "Status", "Symbol", "Terminated", "Decimals"
+                "Scalar ID", "Vector", "Coordinate", "Value", "Status", "Symbol", "Terminated", "Decimals", "Processed Method"
             ]
         for record in self.vegetables_dataset:
             table_data.append(str(record).split(" | "))
@@ -110,15 +113,15 @@ class DataStore:
             print("---------PLEASE SELECT BETWEEN 0 AND 100---------")
 
         elif input == 0:
-            print(tabulate(table_data, headers, tablefmt="pipe"))
+            print(tabulate(table_data, headers, tablefmt="pipe")) # Print all records in a tabulated format
 
         else: 
             print("---------YOU SELECTED ROW BELOW---------\n")
-            print(self.vegetables_dataset[input - 1])
+            print(self.vegetables_dataset[input - 1]) # Print the selected record
 
     def insertRecords( self, ref_date, geo, dguid, type_of_product, type_of_storage,
                    uom, uom_id, scalar_factor, scalar_id, vector, coordinate, 
-                   value, status, symbol, terminated, decimals,
+                   value, status, symbol, terminated, decimals, process_method=None
     ):
         '''
         Inserts a new record into the vegetables_dataset list.
@@ -140,13 +143,18 @@ class DataStore:
             symbol (str): The symbol.
             terminated (str): The termination status.
             decimals (str): The decimal value.
+            process_method (str): The process method for processed vegetables (optional).
 
         '''
-        new_record = self.vegetablesRecord(ref_date, geo, dguid, type_of_product, type_of_storage,
-                                    uom, uom_id, scalar_factor, scalar_id, vector, coordinate,
-                                    value, status, symbol, terminated, decimals,
-        )
-        self.vegetables_dataset.append(new_record)
+        if process_method:
+            new_record = ProcessedVegetablesRecord(ref_date, geo, dguid, type_of_product, type_of_storage,
+                                                   uom, uom_id, scalar_factor, scalar_id, vector, coordinate,
+                                                   value, status, symbol, terminated, decimals, process_method)
+        else:
+            new_record = VegetablesRecord(ref_date, geo, dguid, type_of_product, type_of_storage,
+                                          uom, uom_id, scalar_factor, scalar_id, vector, coordinate,
+                                          value, status, symbol, terminated, decimals)
+        self.vegetables_dataset.append(new_record) # Add the new record to the dataset
 
     def editRecords(self, row, ref_date, geo, dguid, type_of_product,
                       type_of_storage, uom, uom_id, scalar_factor, scalar_id,

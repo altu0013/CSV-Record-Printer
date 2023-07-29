@@ -5,12 +5,11 @@ Date: 06/18/2023
 Description: Practical Project Part 02 program that uses CSV library to open 
 and print records from the CSV dataset on screen.
 '''
+# Import the Controller class to interact with the data and business logic
 from controller import Controller
 
+# The View class handles the user interface and user inputs for interacting with the program.
 class View(object):
-    """
-        The View class handles the user interface and user inputs for interacting with the program.
-    """
 
     def __init__(self):
         self.c = Controller() # Create an instance of the Controller class
@@ -28,24 +27,25 @@ class View(object):
         4: Create a new record and store it in the simple data structure in memory
         5: Select and edit a record held in the simple data structure in memory
         6: Select and delete a record from the simple data structure in memory
-        7: Exit the program
+        7: Insert a new processed vegetable record
+        8: Exit the program
         """
         print(menu)
-        user_input = int(input("Please enter a number between 1-7 to perform one of the menu item: "))
+        user_input = int(input("Please enter a number between 1-8 to perform one of the menu item: "))
 
-
+        # Handle user input for different menu options
         if user_input == 1:
-                # Reload the data from the dataset
+                # Reload the data from the dataset by calling the getAll() method of the Controller
                 Controller().getAll()
                 self.menu()
 
         elif user_input == 2:
-                # Persist the data from memory to the disk as a new CSV file
+                # Persist the data from memory to the disk as a new CSV file by calling the createNewFile() method of the Controller
                 Controller().createNewFile()
                 self.menu()
 
         elif user_input == 3:
-                # Select and display the specified record(s) from the in-memory data
+                # Select and display the specified record(s) from the in-memory data by calling the getRecord() method of the Controller
                 display_input = int(input("Which row would you like to display? Enter between 1-100: \n"
                            "Enter 0 for all the records: "))
 
@@ -54,6 +54,7 @@ class View(object):
                 
         elif user_input == 4:
                 # Create a new record and store it in the simple data structure in memory
+                # Get input values for the new record
                 REF_DATE = str(input("REF_DATE: "))
                 GEO = str(input("GEO: "))
                 DGUID = str(input("DGUID: "))
@@ -70,14 +71,25 @@ class View(object):
                 SYMBOL = str(input("Symbol: "))
                 TERMINATED = str(input("Terminated: "))
                 DECIMALS = str(input("Decimals: "))
-                 # Call the insertRecord() method of the Controller
-                Controller().insertRecord(REF_DATE, GEO, DGUID, TYPE_OF_PRODUCT, TYPE_OF_STORAGE, UOM, UOM_ID,
+                # Check if the vegetable record is processed or not
+                is_processed = input("Is this a processed vegetable record? (Y/N): ").strip().lower()
+                if is_processed == "y":
+                        # Get the process method for processed vegetables
+                        PROCESS_METHOD = str(input("Process Method: "))
+                        # Call the insertRecord() method of the Controller with appropriate arguments for processed vegetable
+                        Controller().insertRecord(REF_DATE, GEO, DGUID, TYPE_OF_PRODUCT, TYPE_OF_STORAGE, UOM, UOM_ID,
                                SCALAR_FACTOR, SCALAR_ID, VECTOR, COORDINATE, VALUE,
-                               STATUS, SYMBOL, TERMINATED, DECIMALS)
+                               STATUS, SYMBOL, TERMINATED, DECIMALS, PROCESS_METHOD)
+                else:
+                        # Call the insertRecord() method of the Controller for normal vegetable record
+                        Controller().insertRecord(REF_DATE, GEO, DGUID, TYPE_OF_PRODUCT, TYPE_OF_STORAGE, UOM, UOM_ID,
+                                    SCALAR_FACTOR, SCALAR_ID, VECTOR, COORDINATE, VALUE,
+                                    STATUS, SYMBOL, TERMINATED, DECIMALS)
                 self.menu()         
                                 
         elif user_input == 5:
-                # Prompt user for updated values of the record fields and store them in variables
+                # Select and edit an existing record held in the simple data structure in memory
+                # Get input values for updating the selected record
                 selectedRow = int(input("Please enter the row number you need to update (0-100): "))
                 edit_REF_DATE = str(input("New REF_DATE: "))
                 edit_GEO = str(input("New GEO: "))
@@ -95,18 +107,47 @@ class View(object):
                 edit_SYMBOL = str(input("New Symbol: "))
                 edit_TERMINATED = str(input("New Terminated: "))
                 edit_DECIMALS = str(input("New Decimals: "))
-                # Call the updateRecord() method of the Controller
+                # Call the updateRecord() method of the Controller to update the selected record
                 Controller().updateRecord(selectedRow, edit_REF_DATE, edit_GEO, edit_DGUID, edit_TYPE_OF_PRODUCT, edit_TYPE_OF_STORAGE, 
                                      edit_UOM, edit_UOM_ID, edit_SCALAR_FACTOR, edit_SCALAR_ID, edit_VECTOR, edit_COORDINATE, 
                                      edit_VALUE, edit_STATUS, edit_SYMBOL, edit_TERMINATED, edit_DECIMALS)
                 self.menu()
 
         elif user_input == 6:
+                # Select and delete a record from the simple data structure in memory
                 deleteRow = int(input("Which row would you like to delete? Please enter row number: "))
-                Controller().deleteRecord(deleteRow) # Call the deleteRecord() method of the Controller
+                # Call the deleteRecord() method of the Controller to delete the selected record
+                Controller().deleteRecord(deleteRow) 
                 self.menu()
-            
+
         elif user_input == 7:
+            # Insert a new processed vegetable record
+            # Get input values for the new processed vegetable record
+            REF_DATE = str(input("REF_DATE: "))
+            GEO = str(input("GEO: "))
+            DGUID = str(input("DGUID: "))
+            TYPE_OF_PRODUCT = str(input("Type of Product: "))
+            TYPE_OF_STORAGE = str(input("Type of Storage: "))
+            UOM = str(input("UOM: "))
+            UOM_ID = str(input("UOM ID: "))
+            SCALAR_FACTOR = str(input("Scalar Factor: "))
+            SCALAR_ID = str(input("Scalar ID: "))
+            VECTOR = str(input("Vector: "))
+            COORDINATE = str(input("Coordinate: "))
+            VALUE = str(input("Value: "))
+            STATUS = str(input("Status: "))
+            SYMBOL = str(input("Symbol: "))
+            TERMINATED = str(input("Terminated: "))
+            DECIMALS = str(input("Decimals: "))
+            PROCESS_METHOD = str(input("Process Method: "))
+            # Call the insertRecord() method of the Controller with appropriate arguments for processed vegetable
+            self.c.insertRecord(REF_DATE, GEO, DGUID, TYPE_OF_PRODUCT, TYPE_OF_STORAGE, UOM, UOM_ID,
+                                SCALAR_FACTOR, SCALAR_ID, VECTOR, COORDINATE, VALUE,
+                                STATUS, SYMBOL, TERMINATED, DECIMALS, process_method=PROCESS_METHOD)
+            self.menu()
+            
+        elif user_input == 8:
+                # Exit the program
                 print("\n-------EXITING------\nThank you for using the program.\nProgram by Caner Altun\n")
                 exit()
         else:

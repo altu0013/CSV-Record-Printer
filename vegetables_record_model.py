@@ -8,13 +8,12 @@ and print records from the CSV dataset on screen.
 #We use triple quotation marks for multi-line strings.
 
 
+# Base class representing vegetable records
 class VegetablesRecord:
-    #All classes have a function called __init__(), which is always executed when the class is being initiated.
-    #We have to use the __init__() function to assign values to object properties, 
-    #or other operations that are necessary to do when the object is being created
     def __init__(self, ref_date, geo, dguid, type_of_product, type_of_storage,
                  uom, uom_id, scalar_factor, scalar_id, vector, coordinate,
                  value, status, symbol, terminated, decimals):
+        # Constructor to initialize the attributes of the class instance
         self.ref_date = ref_date
         self.geo = geo
         self.dguid = dguid
@@ -32,12 +31,26 @@ class VegetablesRecord:
         self.terminated = terminated
         self.decimals = decimals
     
-    #Caner Altun
-    #The __str__() function returns a string representation of the VegetablesRecord object.
-    #https://note.nkmk.me/en/python-long-string/
+    # Method to return a string representation of the object
     def __str__(self):
         return (
             f'{self.ref_date} | {self.geo} | {self.dguid} | {self.type_of_product} | {self.type_of_storage} | '
             f'{self.uom} | {self.uom_id} | {self.scalar_factor} | {self.scalar_id} | {self.vector} | '
             f'{self.coordinate} | {self.value} | {self.status} | {self.symbol} | {self.terminated} | {self.decimals}'
-        )    
+        )
+
+# Subclass representing processed vegetable records, inheriting from VegetablesRecord
+class ProcessedVegetablesRecord(VegetablesRecord):
+    def __init__(self, ref_date, geo, dguid, type_of_product, type_of_storage,
+                 uom, uom_id, scalar_factor, scalar_id, vector, coordinate,
+                 value, status, symbol, terminated, decimals, process_method):
+        # Call the __init__() of the base class to initialize common attributes
+        super().__init__(ref_date, geo, dguid, type_of_product, type_of_storage,
+                         uom, uom_id, scalar_factor, scalar_id, vector, coordinate,
+                         value, status, symbol, terminated, decimals)
+        self.process_method = process_method  # New attribute for processed vegetables
+    
+    # Method to return a string representation of the object, including the process method
+    def __str__(self):
+        base_info = super().__str__()  # Get the base class string representation
+        return f'{base_info} | Process Method: {self.process_method}'

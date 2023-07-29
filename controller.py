@@ -5,15 +5,12 @@ Date: 06/18/2023
 Description: Practical Project Part 02 program that uses CSV library to open 
 and print records from the CSV dataset on screen.
 '''
-from vegetables_record_model import VegetablesRecord
+# Import the required classes from other modules
+from vegetables_record_model import VegetablesRecord, ProcessedVegetablesRecord
 from data_access import DataStore
 
-
+# The Controller class handles user actions and interacts with the Model and View components.
 class Controller:
-    """
-    The Controller class handles user actions and interacts with the Model and View components.
-    """
-    
     r = VegetablesRecord # Create an instance of the VegetablesRecord model
     d = DataStore() # Create an instance of the DataStore for data access operations
 
@@ -38,13 +35,13 @@ class Controller:
     
     def insertRecord(self, ref_date, geo, dguid, type_of_product, type_of_storage,
                   uom, uom_id, scalar_factor, scalar_id, vector, coordinate,
-                  value, status, symbol, terminated, decimals):
+                  value, status, symbol, terminated, decimals, process_method=None):
         """
         Inserts a new record with the provided data by calling the insertRecords() method of the DataStore.
         """
         self.d.insertRecords(ref_date, geo, dguid, type_of_product, type_of_storage,
-                          uom, uom_id, scalar_factor, scalar_id, vector, coordinate,
-                          value, status, symbol, terminated, decimals)
+                             uom, uom_id, scalar_factor, scalar_id, vector, coordinate,
+                             value, status, symbol, terminated, decimals, process_method)
         print("------NEW RECORD INSERTED SUCCESSFULLY------")
 
     def updateRecord(self, i, ref_date, geo, dguid, type_of_product, type_of_storage,
