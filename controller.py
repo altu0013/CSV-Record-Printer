@@ -1,13 +1,15 @@
 '''
 Author: Caner Altun - 041025544
 Course: CST_8333_350 Programming Language Research
-Date: 06/18/2023
-Description: Practical Project Part 02 program that uses CSV library to open 
+Date: 08/05/2023
+Description: Practical Project Part 04 program that uses CSV library to open 
 and print records from the CSV dataset on screen.
 '''
 # Import the required classes from other modules
 from vegetables_record_model import VegetablesRecord, ProcessedVegetablesRecord
 from data_access import DataStore
+import matplotlib.pyplot as plt
+
 
 # The Controller class handles user actions and interacts with the Model and View components.
 class Controller:
@@ -63,3 +65,18 @@ class Controller:
         self.d.deleteRecords(d)
         print("\n--------DELETED SUCCESSFULLY---------")
         
+    def showPieChart(self):
+        """
+        Generates and displays a pie chart representing the distribution of vegetable types in the dataset.
+        """
+        # Get the vegetable types and their counts from the dataset using the DataStore
+        vegetable_types, counts = self.d.getVegetableTypeCounts()
+
+        # Create a pie chart
+        plt.figure(figsize=(8, 6))
+        plt.pie(counts, labels=vegetable_types, autopct="%1.1f%%", startangle=140)
+
+        # Add a title and display the chart
+        plt.title("Distribution of Vegetable Types")
+        plt.axis("equal")
+        plt.show()

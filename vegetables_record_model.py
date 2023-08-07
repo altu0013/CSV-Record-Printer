@@ -1,8 +1,8 @@
 '''
 Author: Caner Altun - 041025544
 Course: CST_8333_350 Programming Language Research
-Date: 06/18/2023
-Description: Practical Project Part 02 program that uses CSV library to open 
+Date: 08/05/2023
+Description: Practical Project Part 04 program that uses CSV library to open 
 and print records from the CSV dataset on screen.
 '''
 #We use triple quotation marks for multi-line strings.

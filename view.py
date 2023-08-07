@@ -1,8 +1,8 @@
 '''
 Author: Caner Altun - 041025544
 Course: CST_8333_350 Programming Language Research
-Date: 06/18/2023
-Description: Practical Project Part 02 program that uses CSV library to open 
+Date: 08/05/2023
+Description: Practical Project Part 04 program that uses CSV library to open 
 and print records from the CSV dataset on screen.
 '''
 # Import the Controller class to interact with the data and business logic
@@ -28,10 +28,11 @@ class View(object):
         5: Select and edit a record held in the simple data structure in memory
         6: Select and delete a record from the simple data structure in memory
         7: Insert a new processed vegetable record
-        8: Exit the program
+        8: Create a pie chart for vegetable types
+        9: Exit the program
         """
         print(menu)
-        user_input = int(input("Please enter a number between 1-8 to perform one of the menu item: "))
+        user_input = int(input("Please enter a number between 1-9 to perform one of the menu item: "))
 
         # Handle user input for different menu options
         if user_input == 1:
@@ -145,13 +146,18 @@ class View(object):
                                 SCALAR_FACTOR, SCALAR_ID, VECTOR, COORDINATE, VALUE,
                                 STATUS, SYMBOL, TERMINATED, DECIMALS, process_method=PROCESS_METHOD)
             self.menu()
-            
+        
         elif user_input == 8:
+            # Show the pie chart
+            Controller().showPieChart()
+            print("------------Pie Chart Created Successfully-------------")
+            self.menu()
+
+        elif user_input == 9:
                 # Exit the program
                 print("\n-------EXITING------\nThank you for using the program.\nProgram by Caner Altun\n")
                 exit()
         else:
                print("\n--------INVALID VALUE--------")
                self.menu()
-
 

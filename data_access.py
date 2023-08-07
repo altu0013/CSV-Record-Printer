@@ -1,8 +1,8 @@
 '''
 Author: Caner Altun - 041025544
 Course: CST_8333_350 Programming Language Research
-Date: 06/18/2023
-Description: Practical Project Part 02 program that uses CSV library to open 
+Date: 08/05/2023
+Description: Practical Project Part 04 program that uses CSV library to open 
 and print records from the CSV dataset on screen.
 '''
 #In the next line, csv module is imported. 
@@ -10,6 +10,7 @@ and print records from the CSV dataset on screen.
 import csv
 from vegetables_record_model import VegetablesRecord, ProcessedVegetablesRecord
 from tabulate import tabulate
+#from collections  import Counter
 
 # The DataStore class stores and manages the vegetable records.
 class DataStore:
@@ -197,3 +198,26 @@ class DataStore:
 
         '''
         del self.vegetables_dataset[row - 1]
+
+
+    def getVegetableTypeCounts(self):
+        """
+        Calculates and returns the counts of each vegetable type in the dataset.
+        """
+        vegetable_types = {}  # Dictionary to store vegetable types and their counts
+
+        # Loop through the dataset and count the occurrences of each vegetable type
+        for record in self.vegetables_dataset:
+            type_of_product = record.type_of_product.lower()  # Convert to lowercase
+            if type_of_product in vegetable_types:
+                vegetable_types[type_of_product] += 1
+            else:
+                vegetable_types[type_of_product] = 1
+
+        # Separate the vegetable types and their counts into two lists
+        vegetable_types_list = list(vegetable_types.keys())
+        counts = list(vegetable_types.values())
+
+        return vegetable_types_list, counts
+
+
